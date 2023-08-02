@@ -1,13 +1,2 @@
-
-
-
-
 #!/bin/bash
-
-
-for file in [A-Z]*; do
-  if [ -e "$file" ]; then
-    mv "$file" /tmp/u/
-  fi
-done
-ne
+mv [A-Z]* /tmp/u
