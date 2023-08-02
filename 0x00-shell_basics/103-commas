@@ -1,4 +1,2 @@
-
 #!/bin/bash
-ls -A1v --group-directories-first --indicator-style=slash | awk 'BEGIN { ORS=", " } { print }' | sed 's/..$/\n/'
-
+ls -Av --group-directories-first --indicator-style=slash | tr '\n' ',' | sed 's/,$/\n/' | sed 's/,/, /g'
