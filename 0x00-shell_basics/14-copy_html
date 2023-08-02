@@ -1,0 +1,10 @@
+#!/bin/bash
+cp -u *.html ../
+#!/bin/bash
+
+if ls *.html 1> /dev/null 2>&1; then
+  cp -u *.html ../
+else
+  echo "No HTML files found in the current directory."
+fi
+
