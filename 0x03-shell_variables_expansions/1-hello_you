@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "hello $(whoami || echo user)"
+echo "hello $USER"
