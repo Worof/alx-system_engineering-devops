@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# This script plays the FizzBuzz game from 1 to 100
+# For multiples of 3, it prints 'Fizz'
+# For multiples of 5, it prints 'Buzz'
+# For multiples of both 3 and 5, it prints 'FizzBuzz'
+# Otherwise, it prints the number
+
+for i in {1..100}; do
+  if (( i % 3 == 0 && i % 5 == 0 )); then
+    echo "FizzBuzz"
+  elif (( i % 3 == 0 )); then
+    echo "Fizz"
+  elif (( i % 5 == 0 )); then
+    echo "Buzz"
+  else
+    echo "$i"
+  fi
+done
