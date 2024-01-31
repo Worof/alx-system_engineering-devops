@@ -10,7 +10,7 @@ end
 input_string = ARGV[0]
 
 # Use a regular expression to match the pattern
-matches = input_string.scan(/hb+t{2, 5}+n/)
+matches = input_string.scan(/hb+tt+n/)
 
 # Print the matches
 puts matches.join
