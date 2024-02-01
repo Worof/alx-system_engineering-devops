@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# This script listens on port 98 on localhost
+
+# Use the netcat command to listen on port 98
+# -l tells netcat to listen for incoming connections
+# -k tells netcat to keep listening for new connections after current connections are completed
+# -p specifies the port to listen on
+netcat -lkp 98
