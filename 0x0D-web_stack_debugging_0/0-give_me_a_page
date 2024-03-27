@@ -1,13 +1,8 @@
 #!/usr/bin/env bash
-# Script to configure Apache to serve "Hello Holberton"
+# Script to fix the web server and serve "Hello Holberton"
 
-# Install Apache and start the service
-apt-get update
-apt-get install -y apache2
-service apache2 start
+# Ensure Apache is running
+service apache2 status || service apache2 start
 
-# Configure the web page content
+# Create or modify the index.html to serve "Hello Holberton"
 echo "Hello Holberton" > /var/www/html/index.html
-
-# Restart Apache to apply the changes
-service apache2 restart
