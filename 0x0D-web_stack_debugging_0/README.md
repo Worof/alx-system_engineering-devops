@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 0x0D Web Stack Debugging 0
 
 ## Overview
@@ -13,6 +12,3 @@ The main goal of this project is to debug a Docker container configured to run a
 
 - **Give me a page**: You are provided with a Docker container that should be serving a page via Apache. However, upon accessing the server, it does not display the expected "Hello Holberton" message. Your mission is to enter the container, investigate the configuration, and implement a fix to ensure the server behaves as intended.
 
-=======
-# alx-system_engineering-devops
->>>>>>> 3fcac81d243af3ebdaa0835b42873048506b0326

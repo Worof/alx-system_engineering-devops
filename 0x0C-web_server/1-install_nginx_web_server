@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Installs and configures Nginx on an Ubuntu machine
+
+# Update and install Nginx
+apt-get update
+apt-get install -y nginx
+
+# Create a simple HTML file to serve
+echo "Hello World!" > /var/www/html/index.html
+
+# Instead of using systemctl, use service to start nginx without specifying it explicitly
+service nginx start
+
+# Replace the default nginx configuration to ensure it listens on port 80
+# and serves the content of /var/www/html/index.html
+cat > /etc/nginx/sites-available/default <<EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+}
+EOF
+
+# Reload the nginx configuration without using systemctl
+nginx -s reload

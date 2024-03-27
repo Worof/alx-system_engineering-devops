@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# This script displays all active IPv4 IPs on the machine it's executed on
+
+# Use the hostname command with the -I option to display all network addresses of the host
+hostname -I

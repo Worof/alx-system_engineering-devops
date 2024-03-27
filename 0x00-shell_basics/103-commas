@@ -1,0 +1,2 @@
+#!/bin/bash
+ls -Av --group-directories-first --indicator-style=slash | tr '\n' ',' | sed 's/,$/\n/' | sed 's/,/, /g'
