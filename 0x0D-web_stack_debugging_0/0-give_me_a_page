@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Script to fix the web server and serve "Hello Holberton"
+
+# Ensure Apache is running
+service apache2 status || service apache2 start
+
+# Create or modify the index.html to serve "Hello Holberton"
+echo "Hello Holberton" > /var/www/html/index.html
