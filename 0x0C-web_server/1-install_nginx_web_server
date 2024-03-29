@@ -1,33 +1,24 @@
 #!/usr/bin/env bash
-# Installs and configures Nginx on an Ubuntu machine
+# This script transfers a file from a client to a server using SCP
 
-# Update and install Nginx
-apt-get update
-apt-get install -y nginx
+# Check if correct number of arguments is provided
+if [ "$#" -lt 4 ]; then
+    echo "Usage: $0 PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
+    exit 1
+fi
 
-# Create a simple HTML file to serve
-echo "Hello World!" > /var/www/html/index.html
+# Assign arguments to variables
+path_to_file="$1"
+server_ip="$2"
+username="$3"
+ssh_key="$4"
 
-# Instead of using systemctl, use service to start nginx without specifying it explicitly
-service nginx start
+# Transfer file to the server
+scp -o StrictHostKeyChecking=no -i "$ssh_key" "$path_to_file" "$username@$server_ip":~/ 
 
-# Replace the default nginx configuration to ensure it listens on port 80
-# and serves the content of /var/www/html/index.html
-cat > /etc/nginx/sites-available/default <<EOF
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    root /var/www/html;
-    index index.html index.htm index.nginx-debian.html;
-
-    server_name _;
-
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-}
-EOF
-
-# Reload the nginx configuration without using systemctl
-nginx -s reload
+# Check if file transfer was successful
+if [ $? -eq 0 ]; then
+    echo "File transfer successful"
+else
+    echo "File transfer failed"
+fi
