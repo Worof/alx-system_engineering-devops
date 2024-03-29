@@ -1,33 +1,43 @@
-#!/usr/bin/env bash
+# Puppet manifest to install and configure Nginx web server
 
-class nginx_setup {
-  package { 'nginx':
-    ensure => installed,
-  }
-
-  service { 'nginx':
-    ensure     => running,
-    enable     => true,
-    require    => Package['nginx'],
-  }
-
-  file { '/var/www/html/index.html':
-    ensure  => file,
-    content => 'Hello World!',
-    require => Package['nginx'],
-  }
-
-  file { '/etc/nginx/sites-available/default':
-    ensure  => file,
-    content => template('modulename/default.erb'),
-    require => Package['nginx'],
-    notify  => Service['nginx'],
-  }
-
-  exec { 'reload_nginx':
-    command     => '/usr/sbin/nginx -s reload',
-    refreshonly => true,
-  }
+# Install Nginx package
+package { 'nginx':
+  ensure => installed,
 }
 
-include nginx_setup
+# Configure Nginx to listen on port 80
+file { '/etc/nginx/sites-available/default':
+  ensure  => present,
+  content => "server {
+    listen 80;
+    listen [::]:80;
+
+    server_name _;
+
+    # Redirect /redirect_me to another page with a 301 status code
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+    # Return "Hello World!" at root /
+    location / {
+        root /var/www/html;
+        index index.html;
+    }
+}",
+  require => Package['nginx'],
+}
+
+# Create "Hello World!" index page
+file { '/var/www/html/index.html':
+  ensure  => present,
+  content => "Hello World!\n",
+  require => Package['nginx'],
+}
+
+# Restart Nginx service to apply changes
+service { 'nginx':
+  ensure    => running,
+  enable    => true,
+  subscribe => File['/etc/nginx/sites-available/default', '/var/www/html/index.html'],
+}
