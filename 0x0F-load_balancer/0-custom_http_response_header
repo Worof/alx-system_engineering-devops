@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Configures a web server with a custom Nginx response header.
+
+# Install Nginx if it's not already installed
+sudo apt update
+sudo apt install -y nginx
+
+# Ensure Nginx is running
+sudo systemctl start nginx
+sudo systemctl enable nginx
+
+# Configure Nginx to add the custom header
+# The hostname command gets the server's hostname, which is used as the value for the custom header
+echo "Adding custom header to Nginx configuration..."
+sudo bash -c "echo 'add_header X-Served-By \$hostname;' > /etc/nginx/conf.d/custom_header.conf"
+
+# Test the Nginx configuration for syntax errors
+sudo nginx -t
+
+# Reload Nginx to apply the changes
+sudo systemctl reload nginx
