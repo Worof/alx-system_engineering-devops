@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# Install and configure HAproxy on a new Ubuntu machine
+
+# Install HAproxy
+sudo apt update
+sudo apt install -y haproxy
+
+# Enable HAproxy to start at boot
+sudo systemctl enable haproxy
+
+# Configure HAproxy
+# Replace WEB01_IP and WEB02_IP with the actual IP addresses of web-01 and web-02
+cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    chroot /var/lib/haproxy
+    stats timeout 30s
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
+
+frontend http_front
+    bind *:80
+    stats uri /haproxy?stats
+    default_backend http_back
+
+backend http_back
+    balance roundrobin
+    server web-01 WEB01_IP:80 check
+    server web-02 WEB02_IP:80 check
+EOF
+
+# Replace WEB01_IP and WEB02_IP with the correct IPs before running the script
+
+# Restart HAproxy to apply the changes
+sudo systemctl restart haproxy
+
+# Check the status of HAproxy to ensure it's running correctly
+sudo systemctl status haproxy
