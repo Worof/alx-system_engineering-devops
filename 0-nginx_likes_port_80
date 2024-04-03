@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Script to ensure Nginx is running on port 80
+
+# Install Nginx if it's not installed
+if ! command -v nginx &> /dev/null; then
+    sudo apt update
+    sudo apt install nginx -y
+fi
+
+# Start Nginx if it's not running
+if ! sudo service nginx status > /dev/null; then
+    sudo service nginx start
+else
+    sudo service nginx restart
+fi
+
+# Ensure Nginx listens on port 80 (this is default but included for thoroughness)
+sudo sed -i '/listen 80 default_server;/c\listen 80 default_server;' /etc/nginx/sites-available/default
+sudo service nginx restart
