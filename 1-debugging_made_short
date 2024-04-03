@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+[ $(pgrep nginx) ] || service nginx start
+service nginx status | grep running || exit
+nginx -t && service nginx reload
