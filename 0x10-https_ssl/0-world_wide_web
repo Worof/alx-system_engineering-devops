@@ -1,20 +1,30 @@
 #!/usr/bin/env bash
-# This script displays information about subdomains.
+# This script displays information about specified subdomains.
 
+# Function to display subdomain info
+display_info() {
+    local subdomain=$1
+    local domain=$2
+    local result=$(dig +short "$subdomain.$domain")
+    local record_type=$(dig +short "$subdomain.$domain" | awk '/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/ {print "A"}')
+
+    if [ -n "$result" ]; then
+        echo "The subdomain $subdomain is a $record_type record and points to $result"
+    else
+        echo "No A record found for $subdomain"
+    fi
+}
+
+# Main script logic
 domain=$1
 subdomain=$2
 
-display_info() {
-    result=$(dig +short $1.$domain)
-    echo "The subdomain $1 is a A record and points to $result"
-}
-
 if [ -z "$subdomain" ]; then
-    # Display info for default subdomains if only domain is provided
-    for sub in www lb-01 web-01 web-02; do
-        display_info $sub
+    # Display info for default subdomains if no subdomain is provided
+    for sd in www lb-01 web-01 web-02; do
+        display_info $sd $domain
     done
 else
-    # Display info for provided subdomain
-    display_info $subdomain
+    # Display info for the provided subdomain
+    display_info $subdomain $domain
 fi
