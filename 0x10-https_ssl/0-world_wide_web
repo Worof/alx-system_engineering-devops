@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# This script displays information about subdomains.
+
+domain=$1
+subdomain=$2
+
+display_info() {
+    result=$(dig +short $1.$domain)
+    echo "The subdomain $1 is a A record and points to $result"
+}
+
+if [ -z "$subdomain" ]; then
+    # Display info for default subdomains if only domain is provided
+    for sub in www lb-01 web-01 web-02; do
+        display_info $sub
+    done
+else
+    # Display info for provided subdomain
+    display_info $subdomain
+fi
