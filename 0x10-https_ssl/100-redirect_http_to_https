@@ -1,0 +1,13 @@
+frontend http-in
+    bind *:80
+    mode http
+    redirect scheme https code 301 if !{ ssl_fc }
+
+frontend https-in
+    bind *:443 ssl crt /ssl/certificate.pem
+    mode http
+    default_backend your_https_backend
+
+backend your_https_backend
+    server web1 192.168.1.101:80 check
+    server web2 192.168.1.102:80 check
