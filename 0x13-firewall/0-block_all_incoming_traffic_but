@@ -1,0 +1,22 @@
+# Commands to configure UFW to block all incoming traffic except on ports 22, 80, and 443
+
+# Set the default policy for incoming traffic to 'deny'
+sudo ufw default deny incoming
+
+# Set the default policy for outgoing traffic to 'allow'
+sudo ufw default allow outgoing
+
+# Allow incoming TCP connections on port 22 for SSH
+sudo ufw allow 22/tcp
+
+# Allow incoming TCP connections on port 80 for HTTP
+sudo ufw allow 80/tcp
+
+# Allow incoming TCP connections on port 443 for HTTPS
+sudo ufw allow 443/tcp
+
+# Enable UFW
+sudo ufw enable
+
+# To check the status of UFW and the rules that have been applied
+sudo ufw status verbose
